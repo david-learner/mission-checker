@@ -18,4 +18,7 @@ public class Mission {
     private List<Member> members;
     @OneToMany(mappedBy = "mission")
     private List<Check> checks;
+    @OneToMany
+    @JoinTable(name = "TB_MISSION_ADMINISTRATOR")
+    private List<Member> administrators;
 }
