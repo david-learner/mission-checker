@@ -3,6 +3,7 @@ package com.missionchecker.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,16 +28,22 @@ public class Member {
     public Member() {
     }
 
+    public Member(String name, String phoneNumber) {
+        this.name = name;
+        this.missions = new ArrayList<>();
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return Objects.equals(phoneNumber, member.phoneNumber);
+        return Objects.equals(name, member.name) && Objects.equals(phoneNumber, member.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phoneNumber);
+        return Objects.hash(name, phoneNumber);
     }
 }

@@ -29,7 +29,8 @@ public class Mission {
     public Mission() {
     }
 
-    public Mission(String name, Set<Member> members, List<Check> checks, Set<Member> administrators, LocalDate startDate, LocalDate endDate) {
+    private Mission(String name, Set<Member> members, List<Check> checks, Set<Member> administrators, LocalDate startDate, LocalDate endDate) {
+
         this.name = name;
         this.members = members;
         this.checks = checks;
@@ -39,11 +40,19 @@ public class Mission {
     }
 
     static Mission createMission(Member creator, String missionName) {
-        return new Mission(missionName, Set.of(creator), new ArrayList<>(), Set.of(creator), LocalDate.now(), LocalDate.now());
+        Set initialSet = new HashSet();
+        initialSet.add(creator);
+
+        return new Mission(missionName, initialSet, new ArrayList<>(), initialSet, LocalDate.now(), LocalDate.now());
     }
 
     public void addMember(Member member) {
 
         this.members.add(member);
+    }
+
+    public boolean hasMember(Member member) {
+
+        return members.contains(member);
     }
 }
