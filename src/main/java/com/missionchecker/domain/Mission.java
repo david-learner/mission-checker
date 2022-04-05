@@ -42,19 +42,17 @@ public class Mission {
     }
 
     static Mission createMission(Member creator, String missionName) {
-        Set initialSet = new HashSet();
-        initialSet.add(creator);
+        Set administrators = new HashSet();
+        administrators.add(creator);
 
-        return new Mission(missionName, initialSet, new ArrayList<>(), initialSet, LocalDate.now(), LocalDate.now());
+        return new Mission(missionName, administrators, new ArrayList<>(), administrators, LocalDate.now(), LocalDate.now());
     }
 
     public void addMember(Member member) {
-
         this.members.add(member);
     }
 
     public boolean hasMember(Member member) {
-
         return members.contains(member);
     }
 
@@ -63,5 +61,9 @@ public class Mission {
             return checks;
         }
         throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
+    }
+
+    public void addAdministrator(Member administrator) {
+        administrators.add(administrator);
     }
 }
