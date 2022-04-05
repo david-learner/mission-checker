@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TB_CHECK")
 @Getter
 public class Check {
 
@@ -23,18 +22,19 @@ public class Check {
     public Check() {
     }
 
-    private Check(Mission mission, Member checker, LocalDateTime checkedAt) {
-        this.mission = mission;
+    private Check(Member checker, LocalDateTime checkedAt) {
         this.checker = checker;
         this.checkedAt = checkedAt;
-        addToMission();
+
     }
 
     public static Check of(Member checkedBy, Mission mission) {
-        return new Check(mission, checkedBy, LocalDateTime.now());
+        Check check = new Check(checkedBy, LocalDateTime.now());
+        check.addCheckToMission(check, mission);
+        return check;
     }
 
-    private void addToMission() {
-        mission.getChecks().add(this);
+    protected void addCheckToMission(Check check, Mission mission) {
+        mission.getChecks().add(check);
     }
 }

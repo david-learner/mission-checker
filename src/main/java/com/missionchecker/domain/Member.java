@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@Table(name = "TB_MEMBER")
 public class Member {
 
     @Id
@@ -18,9 +17,9 @@ public class Member {
     private String name;
     @ManyToMany
     @JoinTable(
-            name = "TB_MEMBER_MISSION",
-            joinColumns = @JoinColumn(name = "TB_MEMBER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "TB_MISSION_ID")
+            name = "MEMBER_MISSION",
+            joinColumns = @JoinColumn(name = "MEMBER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MISSION_ID")
     )
     private List<Mission> missions;
     private String phoneNumber;
