@@ -4,11 +4,13 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "TB_MISSION")
+@Table(name = "MISSION")
 @Getter
 public class Mission {
 
@@ -21,7 +23,7 @@ public class Mission {
     @OneToMany(mappedBy = "mission")
     private List<Check> checks;
     @OneToMany
-    @JoinTable(name = "TB_MISSION_ADMINISTRATOR")
+    @JoinTable(name = "MISSION_ADMINISTRATOR")
     private Set<Member> administrators;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -54,5 +56,12 @@ public class Mission {
     public boolean hasMember(Member member) {
 
         return members.contains(member);
+    }
+
+    public List<Check> getAllChecksBy(Member administrator) {
+        if(administrators.contains(administrator)) {
+            return checks;
+        }
+        throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
     }
 }
