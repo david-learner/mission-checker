@@ -22,19 +22,18 @@ public class Check {
     public Check() {
     }
 
-    private Check(Member checker, LocalDateTime checkedAt) {
+    private Check(Mission mission, Member checker, LocalDateTime checkedAt) {
+        this.mission = mission;
         this.checker = checker;
         this.checkedAt = checkedAt;
-
+        addCheckToMission(this);
     }
 
     public static Check of(Member checkedBy, Mission mission) {
-        Check check = new Check(checkedBy, LocalDateTime.now());
-        check.addCheckToMission(check, mission);
-        return check;
+        return new Check(mission, checkedBy, LocalDateTime.now());
     }
 
-    protected void addCheckToMission(Check check, Mission mission) {
+    protected void addCheckToMission(Check check) {
         mission.getChecks().add(check);
     }
 }
