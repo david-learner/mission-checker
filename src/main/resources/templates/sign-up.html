@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="/fragments/head :: default-head">
+    <title>회원가입</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="container container--xs">
+            <div class="">
+                <div id="">
+                    <img class="img-fluid mx-auto d-block mb-3"
+                         src="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/elements/bootstrap-logo.svg"
+                         alt="">
+                    <h1 class="mb-2 text-center">회원가입</h1>
+                    <p class="text-gray text-center mb-5">Mission Checker에 가입하시고 미션 수행 내역을 관리해보세요</p>
+                    <form method="post" class="register">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="signup-name">이름 <span class="required">*</span></label>
+                                <input type="text" class="input-text form-control" name="name" id="signup-name" value=""
+                                       required="">
+                                <div class="invalid-feedback">유효하지 않은 이름입니다.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="signup-email">이메일 <span class="required">*</span></label>
+                                <input type="email" class="input-text form-control" name="email" id="signup-email"
+                                       value="" required="">
+                                <div class="invalid-feedback">유효하지 않은 이메일입니다.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="signup-phone">휴대전화 <span class="required">*</span></label>
+                                <input type="tel" class="input-text form-control" name="phone" id="signup-phone"
+                                       value="" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                                <div class="invalid-feedback">유효하지 않은 휴대전화 번호입니다.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="signup-privacy-agreement"
+                                           value="option1">
+                                    <label class="form-check-label" for="signup-privacy-agreement">개인정보 수집 및 제공에
+                                        동의하십니까?</label>
+                                </div>
+                                <div class="invalid-feedback">This field is required</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary" type="button">회원가입</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

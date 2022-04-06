@@ -1,0 +1,4 @@
+/* BOOTSTRAP VARIABLES */
+@media (min-width: 768px) {
+    .container--xs { max-width: 570px; }
+}
