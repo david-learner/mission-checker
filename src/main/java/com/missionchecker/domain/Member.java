@@ -15,6 +15,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String email;
+    private String phone;
     @ManyToMany
     @JoinTable(
             name = "MEMBER_MISSION",
@@ -22,15 +24,15 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "MISSION_ID")
     )
     private List<Mission> missions;
-    private String phoneNumber;
 
     public Member() {
     }
 
-    public Member(String name, String phoneNumber) {
+    public Member(String name, String email, String phone) {
         this.name = name;
+        this.email = email;
+        this.phone = phone;
         this.missions = new ArrayList<>();
-        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -38,11 +40,11 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return Objects.equals(name, member.name) && Objects.equals(phoneNumber, member.phoneNumber);
+        return Objects.equals(name, member.name) && Objects.equals(phone, member.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phoneNumber);
+        return Objects.hash(name, phone);
     }
 }
