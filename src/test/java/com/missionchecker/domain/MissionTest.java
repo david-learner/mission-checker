@@ -13,8 +13,8 @@ class MissionTest {
     @DisplayName("참여자가 미션 수행 완료를 표시한다")
     void createCheck() {
         // given
-        Member creator = new Member("Sophie", "sophie@sophie.com", "01022223333");
-        Member missionMember = new Member("David", "david@david.com", "01044445555");
+        Member creator = new Member("Sophie", "sophie@sophie.com", "01022223333", "12345678");
+        Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
         Mission mission = Mission.createMission(creator, "Speaking sentences as English");
         mission.addMember(missionMember);
 
@@ -30,9 +30,9 @@ class MissionTest {
     @DisplayName("미션 개설자와 미션 관리자는 전체 참여자들의 미션 수행 완료 내역을 확인할 수 있다")
     void getAllChecksByAdmin() {
         // given
-        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333");
-        Member administrator = new Member("Julie", "julie@julie.com", "01066667777");
-        Member missionMember = new Member("David", "david@david.com", "01044445555");
+        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333", "12345678");
+        Member administrator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
+        Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
 
         Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");
         mission.addAdministrator(administrator);
@@ -53,9 +53,9 @@ class MissionTest {
     @DisplayName("미션 개설자, 미션 관리자가 아닌 사람은 전체 참여자들의 미션 수행 완료 내역을 확인할 수 없다")
     void getAllChecksByNotAdmin() {
         // given
-        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333");
-        Member notMissionCreator = new Member("Julie", "julie@julie.com", "01066667777");
-        Member missionMember = new Member("David", "david@david.com", "01044445555");
+        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333", "12345678");
+        Member notMissionCreator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
+        Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
 
         Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");
         mission.addMember(missionMember);
@@ -71,8 +71,8 @@ class MissionTest {
     @DisplayName("미션에 관리자를 추가한다")
     void addAdministrator() {
         // given
-        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333");
-        Member anotherAdministrator = new Member("Julie", "julie@julie.com", "01066667777");
+        Member missionCreator = new Member("Sophie", "sophie@sophie.com", "01022223333", "12345678");
+        Member anotherAdministrator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
 
 
         Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");

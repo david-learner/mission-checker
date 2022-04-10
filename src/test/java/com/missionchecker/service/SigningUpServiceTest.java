@@ -28,7 +28,8 @@ class SigningUpServiceTest {
     @DisplayName("이미 가입된 이메일로 중복 회원가입을 할 수 없다")
     void signingUp() {
         // given
-        SigningUpRequest signingUpRequest = new SigningUpRequest("Sophie", "sophie@sophie.com", "01022223333");
+        SigningUpRequest signingUpRequest = new SigningUpRequest("Sophie", "sophie@sophie.com",
+                "01022223333", "123456");
         Optional<Member> maybeMember = Optional.of(signingUpRequest.toMember());
         when(memberRepository.findTopByEmail(signingUpRequest.getEmail())).thenReturn(maybeMember);
 

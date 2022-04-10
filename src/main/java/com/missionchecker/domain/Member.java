@@ -17,6 +17,7 @@ public class Member {
     private String name;
     private String email;
     private String phone;
+    private String password;
     @ManyToMany
     @JoinTable(
             name = "MEMBER_MISSION",
@@ -28,11 +29,16 @@ public class Member {
     public Member() {
     }
 
-    public Member(String name, String email, String phone) {
+    public Member(String name, String email, String phone, String password) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.missions = new ArrayList<>();
+        this.password = password;
+    }
+
+    public boolean isSamePassword(String password) {
+        return this.password.equals(password);
     }
 
     @Override
