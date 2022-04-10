@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="/fragments/head :: default-head">
+    <title>로그인</title>
+</head>
+<body>
+<div class="container">
+    <div name="content">
+        <div class="container container--xs">
+            <form method="post" action="/login">
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="login-email"><b>Email</b></label>
+                        <input type="text" class="input-text form-control" name="email" id="login-email" value=""
+                               required="">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="login-password"><b>Password</b></label>
+                        <input type="password" class="input-text form-control" name="password" id="login-password" value=""
+                               required="">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" type="submit">로그인</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

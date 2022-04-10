@@ -5,9 +5,13 @@
 </head>
 <body>
     <div class="container">
-        <div></div>
-        <a class="btn btn-primary" href="/login" role="button">로그인</a>
-        <a class="btn btn-primary" href="/sign-up" role="button">회원가입</a>
+        <div th:unless="${session.LOGIN_MEMBER}">
+            <a class="btn btn-primary" href="/login" role="button">로그인</a>
+            <a class="btn btn-primary" href="/sign-up" role="button">회원가입</a>
+        </div>
+        <div th:if="${session.LOGIN_MEMBER}">
+            <a class="btn btn-primary" href="/logout" role="button">로그아웃</a>
+        </div>
     </div>
 </body>
 </html>
