@@ -5,7 +5,7 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "CHECKS")
 @Getter
 public class Check {
 
