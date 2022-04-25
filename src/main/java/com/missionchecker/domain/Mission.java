@@ -15,6 +15,8 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @OneToOne
+    private Member creator;
     // 미션 참여자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private Set<Participation> participations;
@@ -23,13 +25,16 @@ public class Mission {
     // 미션 관리자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private Set<Administration> administrations;
+    private Boolean isClosed = Boolean.FALSE;
+    private Boolean isDeleted = Boolean.FALSE;
     private LocalDate openDate;
     private LocalDate closeDate;
 
     public Mission() {
     }
 
-    private Mission(String name, Set<Participation> participations, List<Check> checks, Set<Administration> administrations, LocalDate openDate, LocalDate closeDate) {
+    private Mission(Member creator, String name, Set<Participation> participations, List<Check> checks, Set<Administration> administrations, LocalDate openDate, LocalDate closeDate) {
+        this.creator = creator;
         this.name = name;
         this.participations = participations;
         this.checks = checks;
@@ -52,7 +57,7 @@ public class Mission {
         LocalDate now = LocalDate.now();
 
         // 생성
-        Mission mission = new Mission(missionName, participations, checks, administrations, now, now);
+        Mission mission = new Mission(creator, missionName, participations, checks, administrations, now, now);
         mission.addAdministration(new Administration(creator, mission));
         return mission;
     }
