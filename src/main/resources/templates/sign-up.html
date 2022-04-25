@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="/fragments/head :: default-head">
+<head th:replace="/fragments/head :: default-head(~{::title})">
     <title>회원가입</title>
 </head>
 <body>
+<header th:replace="/fragments/header :: default-header"></header>
 <div class="container">
-    <div name="content">
+    <div name="content" class="content">
         <div class="container container--xs">
-            <h1 class="mb-2 text-center">회원가입</h1>
-            <p class="text-gray text-center mb-5">Mission Checker에 가입하시고 미션 수행 내역을 관리해보세요</p>
+            <div name="content-header">
+                <h1 class="mb-2 text-center">회원가입</h1>
+                <p class="text-gray text-center mb-5">Mission Checker에 가입하시고 미션 수행 내역을 관리해보세요</p>
+            </div>
             <form method="post" action="/sign-up">
                 <div class="row mb-2">
                     <div class="col">

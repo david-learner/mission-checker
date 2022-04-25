@@ -23,11 +23,11 @@ public class SigningUpController {
     @PostMapping("/sign-up")
     public String signingUp(SigningUpRequest signingUpRequest) {
         signingUpService.signUp(signingUpRequest);
-        return "redirect:/sign-up/complete";
+        return "redirect:/sign-up/completion";
     }
 
-    @GetMapping("/sign-up/complete")
+    @GetMapping("/sign-up/completion")
     public String signingUpComplete() {
-        return "sign-up-complete";
+        return "sign-up-completion";
     }
 }
