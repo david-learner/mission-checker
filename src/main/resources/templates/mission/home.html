@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="/fragments/head :: default-head(~{::title})">
+    <title>미션 홈</title>
+</head>
+<body>
+<header th:replace="/fragments/header :: default-header"></header>
+<div class="container">
+    <div class="content">
+        <div class="content-header"></div>
+        <div class="content-body">
+            <div class="px-4 py-5 my-5 text-center">
+                <h1 class="display-5 fw-bold">Let's make a mission!</h1>
+                <div class="col-lg-6 mx-auto">
+                    <p class="lead mb-4">
+                        미션을 만들어 매일 체크하며 성장을 눈으로 확인하세요!
+                    </p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-primary btn-lg px-4 gap-3" href="/missions/registration-form" role="button">미션 만들기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

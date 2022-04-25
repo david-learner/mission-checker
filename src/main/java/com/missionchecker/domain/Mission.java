@@ -4,10 +4,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "MISSION")
@@ -18,52 +15,91 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "missions")
-    private Set<Member> members;
-    @OneToMany(mappedBy = "mission")
+    // 미션 참여자 정보
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    private Set<Participation> participations;
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Check> checks;
-    @OneToMany
-    @JoinTable(name = "MISSION_ADMINISTRATOR")
-    private Set<Member> administrators;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    // 미션 관리자 정보
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    private Set<Administration> administrations;
+    private LocalDate openDate;
+    private LocalDate closeDate;
 
     public Mission() {
     }
 
-    private Mission(String name, Set<Member> members, List<Check> checks, Set<Member> administrators, LocalDate startDate, LocalDate endDate) {
-
+    private Mission(String name, Set<Participation> participations, List<Check> checks, Set<Administration> administrations, LocalDate openDate, LocalDate closeDate) {
         this.name = name;
-        this.members = members;
+        this.participations = participations;
         this.checks = checks;
-        this.administrators = administrators;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.administrations = administrations;
+        this.openDate = openDate;
+        this.closeDate = closeDate;
     }
 
-    static Mission createMission(Member creator, String missionName) {
-        Set administrators = new HashSet();
-        administrators.add(creator);
+    /**
+     * 미션을 생성한다. 미션을 생성한 사람은 자동으로 미션의 관리자로 추가된다.
+     * @param creator
+     * @param missionName
+     * @return
+     */
+    public static Mission of(Member creator, String missionName) {
+        // 초기화
+        Set<Participation> participations = new HashSet<>();
+        List<Check> checks = new ArrayList<>();
+        Set<Administration> administrations = new HashSet<>();
+        LocalDate now = LocalDate.now();
 
-        return new Mission(missionName, administrators, new ArrayList<>(), administrators, LocalDate.now(), LocalDate.now());
+        // 생성
+        Mission mission = new Mission(missionName, participations, checks, administrations, now, now);
+        mission.addAdministration(new Administration(creator, mission));
+        return mission;
     }
 
-    public void addMember(Member member) {
-        this.members.add(member);
-    }
-
-    public boolean hasMember(Member member) {
-        return members.contains(member);
+    public void addParticipant(Member participant) {
+        // Participation은 mission, member 정보가 null이어선 안 된다.
+        // POJO로 not null validation을 어떻게 처리하면 좋을까?
+        Participation participation = new Participation(participant, this);
+        this.participations.add(participation);
+        // todo 미션에 참여자가 추가되면 참여자에게도 미션이 추가되어야 한다. 연관관계 편의 메서드?
+        participant.addParticipation(participation);
     }
 
     public List<Check> getAllChecksBy(Member administrator) {
-        if(administrators.contains(administrator)) {
+        if (isAdministrator(administrator)) {
             return checks;
         }
         throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
     }
 
-    public void addAdministrator(Member administrator) {
-        administrators.add(administrator);
+    private boolean isAdministrator(Member administrator) {
+        for (Administration administration : administrations) {
+            if (administration.isAdministrator(administrator)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 미션 생성할 때 생성자의 관리자 정보 목록에 관리자 정보 추가하기
+    public void addAdministration(Administration administration) {
+        // Mission의 Administration
+        administrations.add(administration);
+        // Member의 Administration
+        administration.getMember().addAdministration(administration);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mission mission = (Mission) o;
+        return Objects.equals(name, mission.name) && Objects.equals(openDate, mission.openDate) && Objects.equals(closeDate, mission.closeDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, openDate, closeDate);
     }
 }
