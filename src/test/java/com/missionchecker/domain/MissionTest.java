@@ -15,8 +15,8 @@ class MissionTest {
         // given
         Member creator = new Member("Sophie", "sophie@sophie.com", "01022223333", "12345678");
         Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
-        Mission mission = Mission.createMission(creator, "Speaking sentences as English");
-        mission.addMember(missionMember);
+        Mission mission = Mission.of(creator, "Speaking sentences as English");
+        mission.addParticipant(missionMember);
 
         // when
         Check checkOfMissionMember = Check.of(missionMember, mission);
@@ -34,9 +34,9 @@ class MissionTest {
         Member administrator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
         Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
 
-        Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");
-        mission.addAdministrator(administrator);
-        mission.addMember(missionMember);
+        Mission mission = Mission.of(missionCreator, "Speaking sentences as English");
+        mission.addAdministration(new Administration(administrator, mission));
+        mission.addParticipant(missionMember);
 
         Check.of(missionMember, mission);
 
@@ -57,8 +57,8 @@ class MissionTest {
         Member notMissionCreator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
         Member missionMember = new Member("David", "david@david.com", "01044445555", "12345678");
 
-        Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");
-        mission.addMember(missionMember);
+        Mission mission = Mission.of(missionCreator, "Speaking sentences as English");
+        mission.addParticipant(missionMember);
 
         Check.of(missionMember, mission);
 
@@ -75,13 +75,13 @@ class MissionTest {
         Member anotherAdministrator = new Member("Julie", "julie@julie.com", "01066667777", "12345678");
 
 
-        Mission mission = Mission.createMission(missionCreator, "Speaking sentences as English");
-        mission.addAdministrator(anotherAdministrator);
+        Mission mission = Mission.of(missionCreator, "Speaking sentences as English");
+        mission.addAdministration(new Administration(anotherAdministrator, mission));
 
         // when
-        Set<Member> administrators = mission.getAdministrators();
+        Set<Administration> administrations = mission.getAdministrations();
 
         // then
-        Assertions.assertThat(administrators.size()).isSameAs(2);
+        Assertions.assertThat(administrations.size()).isSameAs(2);
     }
 }
