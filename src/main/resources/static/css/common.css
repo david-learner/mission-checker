@@ -2,3 +2,12 @@
 @media (min-width: 768px) {
     .container--xs { max-width: 570px; }
 }
+
+@media (min-width: 1080px) {
+    .container {width:1080px;}
+}
+
+/* Content */
+.content {
+    padding: 64px 0px;
+}
