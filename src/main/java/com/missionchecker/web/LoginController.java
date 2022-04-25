@@ -2,6 +2,7 @@ package com.missionchecker.web;
 
 import com.missionchecker.dto.LoginRequest;
 import com.missionchecker.service.LoginService;
+import com.missionchecker.support.SessionMember;
 import com.missionchecker.util.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(LoginRequest loginRequest, HttpSession session) {
-        session.setAttribute(Constant.LOGIN_MEMBER, loginService.login(loginRequest));
+        session.setAttribute(Constant.LOGIN_MEMBER, SessionMember.of(loginService.login(loginRequest)));
         return "redirect:/";
     }
 }
