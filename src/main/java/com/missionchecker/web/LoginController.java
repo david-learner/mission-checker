@@ -27,4 +27,10 @@ public class LoginController {
         session.setAttribute(Constant.LOGIN_MEMBER, SessionMember.of(loginService.login(loginRequest)));
         return "redirect:/";
     }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 }
