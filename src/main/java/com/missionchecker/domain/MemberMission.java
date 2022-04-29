@@ -42,6 +42,6 @@ public class MemberMission {
 
     @Override
     public int hashCode() {
-        return Objects.hash(member, mission);
+        return Objects.hash(member.getName(), member.getEmail(), member.getPhone(), mission.getName());
     }
 }
