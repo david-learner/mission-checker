@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="/fragments/head :: default-head(~{::title})">
+    <title>Mission Checker</title>
+</head>
+<body>
+<header th:replace="/fragments/header :: default-header"></header>
+<div class="container">
+    <div class="content">
+        <div class="content-header">
+            <h1 th:text="${mission.name}">Mission Name</h1>
+        </div>
+        <div class="content-body">
+            <div name="admin-area">
+<!--                <a class="btn btn-primary btn-lg px-4 gap-3" th:href="@{/missions/{id}/invite (id=${mission.id})}" role="button">참여자 초대하기</a>-->
+                <div>
+                    <h3>미션 참여 신청자</h3>
+                    <div name="applicants">
+                        <ul>
+                            <li th:each="applicantData : ${mission.applications}" th:data-applicant-id="*{applicantData.member.id}" th:data-mission-id="${mission.id}">
+                                <span th:text="*{applicantData.member.name}"></span>
+                                <button type="button" onclick="acceptApplicant(this)">수락</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div name="mission-dashboard">
+
+                <div name="mission-introduce">미션 소개</div>
+                <form th:action="@{/missions/{id}/apply (id=${mission.id})}" id="applying-mission-form">
+                    <button type="button" onclick="applyMission()">참여신청</button>
+                </form>
+                <div>미션 수행 체크하기</div>
+                <div>미션 수행 현황</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="/fragments/footer :: default-footer")></div>
+</body>
+</html>

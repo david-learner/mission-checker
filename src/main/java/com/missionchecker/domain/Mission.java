@@ -31,7 +31,7 @@ public class Mission {
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Check> checks;
     // 미션 신청 정보
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Application> applications;
     // 미션 참여자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
@@ -87,13 +87,13 @@ public class Mission {
     public void addApplicant(Member applicant) {
         // todo set 중복 삽입시 발생하는 예외 어떻게 처리해줄건지
         Application newApplication = new Application(applicant, this);
-        if(!applications.contains(newApplication)) {
+        if (!applications.contains(newApplication)) {
             applications.add(newApplication);
             return;
         }
         throw new IllegalArgumentException("동일한 미션에 중복신청할 수 없습니다");
     }
-    
+
     public boolean isParticipating(Member participant) {
         return participations.contains(new Participation(participant, this));
     }
@@ -115,9 +115,10 @@ public class Mission {
         administration.getMember().addAdministration(administration);
     }
 
-    public void acceptApplyingRequest(Member applicant) {
+    public void acceptApplyingRequestBy(Member administrator, Member applicant) {
+        validateValidAdministrator(administrator);
         try {
-            applications.remove(applicant);
+            applications.remove(new Application(applicant, this));
             participations.add(new Participation(applicant, this));
         } catch (Exception e) {
             // todo rollback
@@ -125,10 +126,8 @@ public class Mission {
     }
 
     public List<Check> getAllChecksBy(Member administrator) {
-        if (isAdministrator(administrator)) {
-            return checks;
-        }
-        throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
+        validateValidAdministrator(administrator);
+        return checks;
     }
 
     public boolean isAdministrator(Member administrator) {
@@ -138,6 +137,12 @@ public class Mission {
             }
         }
         return false;
+    }
+
+    public void validateValidAdministrator(Member administrator) {
+        if (!isAdministrator(administrator)) {
+            throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
+        }
     }
 
     @Override

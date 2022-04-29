@@ -26,9 +26,9 @@ public class MissionController {
     @GetMapping("/missions")
     public String missions(SessionMember loginMember, Model model) {
         List<Mission> missionsCreatedByMember = missionService.findByAllMissionsCreatedBy(loginMember);
-//        List<Mission> participatingMissions = missionService.findByAllParticipatingMissions(loginMember);
+        List<Mission> participatingMissions = missionService.findByAllParticipatingMissions(loginMember);
         model.addAttribute("missionsCreatedByMember", missionsCreatedByMember);
-//        model.addAttribute("participatingMissions", participatingMissions);
+        model.addAttribute("participatingMissions", participatingMissions);
         return "mission/home";
     }
 
@@ -58,6 +58,19 @@ public class MissionController {
     @PostMapping("/missions/{missionId}/apply")
     public ResponseEntity applyMission(@PathVariable Long missionId, SessionMember loginMember, Model model) {
         missionService.applyMission(loginMember, missionId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 참여 신청을 수락한다
+     * @param missionId
+     * @param loginMember
+     * @param model
+     * @return
+     */
+    @PostMapping("/missions/{missionId}/applicants/{applicantId}/accept")
+    public ResponseEntity acceptApplicant(@PathVariable Long missionId, @PathVariable Long applicantId, SessionMember loginMember, Model model) {
+        missionService.acceptApplyingRequest(missionId, applicantId, loginMember);
         return ResponseEntity.ok().build();
     }
 }
