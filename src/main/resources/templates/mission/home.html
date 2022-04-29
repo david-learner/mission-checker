@@ -21,9 +21,17 @@
                 </div>
             </div>
             <div class="px-4 py-5 my-5">
+                <p>내가 참여한 미션 목록</p>
+                <div class="list-group">
+                    <a th:each="mission : ${participatingMissions}" th:text="${mission.name}"
+                       th:href="@{/missions/{missionId} (missionId=${mission.id})}"
+                       class="list-group-item list-group-item-action">Mission Name</a>
+                </div>
+            </div>
+            <div class="px-4 py-5 my-5">
                 <p>내가 개설한 미션 목록</p>
                 <div class="list-group">
-                    <a th:each="mission : ${missions}" th:text="${mission.name}"
+                    <a th:each="mission : ${missionsCreatedByMember}" th:text="${mission.name}"
                        th:href="@{/missions/{missionId} (missionId=${mission.id})}"
                        class="list-group-item list-group-item-action">Mission Name</a>
                 </div>
