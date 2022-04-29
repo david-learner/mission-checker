@@ -10,7 +10,7 @@ import java.util.Objects;
 public class MemberMission {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
