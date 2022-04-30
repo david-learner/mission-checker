@@ -22,6 +22,8 @@ import lombok.Getter;
 @Getter
 public class Mission {
 
+    public static final String DUPLICATION_APPLYING_MESSAGE = "동일한 미션에 중복으로 신청할 수 없습니다";
+    public static final String NOT_ADMINISTRATOR_MESSAGE = "해당 미션 관리자가 아닙니다";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -119,8 +121,27 @@ public class Mission {
         }
     }
 
-    public List<Check> getAllChecksBy(Member administrator) {
-        validateValidAdministrator(administrator);
+    /**
+     * 해당 미션에서 어떤 역할을 맡고 있는지 확인한다
+     *
+     * @param member
+     * @return 미션에서 맡은 역할
+     */
+    public MemberRole getMemberRoleOfMission(Member member) {
+        if (creator.equals(member) || isAdministrator(member)) {
+            return MemberRole.ADMINISTRATOR;
+        }
+        if (isParticipant(member)) {
+            return MemberRole.PARTICIPANT;
+        }
+        if (isApplicant(member)) {
+            return MemberRole.APPLICANT;
+        }
+        return MemberRole.GUEST;
+    }
+
+    public List<Check> getAllChecksBy(Member member) {
+        validateValidAdministrator(member);
         return checks;
     }
 

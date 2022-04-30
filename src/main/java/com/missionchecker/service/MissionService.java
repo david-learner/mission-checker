@@ -3,6 +3,7 @@ package com.missionchecker.service;
 import com.missionchecker.domain.Member;
 import com.missionchecker.domain.Mission;
 import com.missionchecker.dto.MissionCreationRequest;
+import com.missionchecker.dto.MissionDetailResponse;
 import com.missionchecker.repository.MemberRepository;
 import com.missionchecker.repository.MissionRepository;
 import com.missionchecker.support.SessionMember;
@@ -35,10 +36,12 @@ public class MissionService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public Mission findOneById(Long id) {
-        return missionRepository.findById(id).orElseThrow(() -> {
+    public MissionDetailResponse findMissionDetail(Long missionId, Long memberId) {
+        Mission mission = missionRepository.findById(missionId).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MISSION_MESSAGE);
         });
+        Member member = findMemberById(memberId);
+        return new MissionDetailResponse(mission, mission.getMemberRoleOfMission(member));
     }
 
     @Transactional
