@@ -84,18 +84,13 @@ public class Mission {
         return mission;
     }
 
-    public void addApplicant(Member applicant) {
+    public void addApplicant(Member member) {
         // todo set 중복 삽입시 발생하는 예외 어떻게 처리해줄건지
-        Application newApplication = new Application(applicant, this);
-        if (!applications.contains(newApplication)) {
-            applications.add(newApplication);
+        if (!isApplicant(member) && !isParticipant(member)) {
+            applications.add(new Application(member, this));
             return;
         }
-        throw new IllegalArgumentException("동일한 미션에 중복신청할 수 없습니다");
-    }
-
-    public boolean isParticipating(Member participant) {
-        return participations.contains(new Participation(participant, this));
+        throw new IllegalArgumentException(DUPLICATION_APPLYING_MESSAGE);
     }
 
     public void addParticipant(Member participant) {
@@ -107,11 +102,10 @@ public class Mission {
         participant.addParticipation(participation);
     }
 
-    // 미션 생성할 때 생성자의 관리자 정보 목록에 관리자 정보 추가하기
+    // 양방향 연관관계 편의메서드
+    // 미션 생성할 때 미션 생성자(creator)의 관리자 정보 목록에 관리자(creator) 정보 추가하기
     public void addAdministration(Administration administration) {
-        // Mission의 Administration
         administrations.add(administration);
-        // Member의 Administration
         administration.getMember().addAdministration(administration);
     }
 
@@ -130,18 +124,21 @@ public class Mission {
         return checks;
     }
 
-    public boolean isAdministrator(Member administrator) {
-        for (Administration administration : administrations) {
-            if (administration.isAdministrator(administrator)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isAdministrator(Member member) {
+        return administrations.contains(new Administration(member, this));
+    }
+
+    private boolean isParticipant(Member member) {
+        return participations.contains(new Participation(member, this));
+    }
+
+    private boolean isApplicant(Member member) {
+        return applications.contains(new Application(member, this));
     }
 
     public void validateValidAdministrator(Member administrator) {
         if (!isAdministrator(administrator)) {
-            throw new IllegalArgumentException("해당 미션 관리자가 아닙니다");
+            throw new IllegalArgumentException(NOT_ADMINISTRATOR_MESSAGE);
         }
     }
 
@@ -159,6 +156,6 @@ public class Mission {
 
     @Override
     public int hashCode() {
-        return Objects.hash(creator, name);
+        return Objects.hash(creator.getName(), creator.getEmail(), creator.getPhone(), name);
     }
 }
