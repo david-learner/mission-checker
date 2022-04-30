@@ -1,9 +1,13 @@
 package com.missionchecker.domain;
 
-import lombok.Getter;
-
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import lombok.Getter;
 
 @MappedSuperclass
 @Getter
@@ -19,7 +23,8 @@ public class MemberMission {
     @JoinColumn(name = "MISSION_ID")
     private Mission mission;
 
-    protected MemberMission() {}
+    protected MemberMission() {
+    }
 
     public MemberMission(Member member, Mission mission) {
         Objects.requireNonNull(member, "MemberMission 생성시 반드시 Member가 존재해야 합니다.");
@@ -28,14 +33,14 @@ public class MemberMission {
         this.mission = mission;
     }
 
-    public boolean isAdministrator(Member administrator) {
-        return member.equals(administrator);
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         MemberMission that = (MemberMission) o;
         return Objects.equals(member, that.member) && Objects.equals(mission, that.mission);
     }
