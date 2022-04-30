@@ -1,14 +1,13 @@
-function applyMission() {
-    const applyingMissionForm = document.querySelector("#applying-mission-form")
-    const applyingMissionRequestUrl = applyingMissionForm.getAttribute("action");
-    const formData = new FormData(applyingMissionForm);
+function applyMission(clickedElement) {
+    const missionId = clickedElement.dataset.missionId;
+    const applyingMissionRequestUrl = "/missions/" + missionId +"/apply";
 
     fetch(applyingMissionRequestUrl, {
         method: 'post',
-        body: formData,
     }).then((response) => {
         if (response.ok) {
             alert("미션 신청이 완료되었습니다.");
+            location.reload();
             // todo button 비활성화
         }
     }).catch((error) => {
@@ -27,6 +26,7 @@ function acceptApplicant(clickedElement) {
     }).then((response) => {
         if (response.ok) {
             alert("참여신청을 수락했습니다.");
+            location.reload();
         }
     }).catch((error) => {
         alert(error);
