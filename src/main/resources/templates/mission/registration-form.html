@@ -21,6 +21,39 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col">
+                        <label for="mission-start-and-end-date">미션 시작일 ~ 종료일</label>
+                        <div id="mission-start-and-end-date" class="input-group">
+                            <input type="date" class="form-control" name="missionStartDate" id="mission-start-date"
+                                   value="2022-05-19" required="">
+                            <span class="input-group-text">~</span>
+                            <input type="date" class="form-control" name="missionEndDate" id="mission-end-date"
+                                   value="2022-06-19" required="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div>
+                            <span style="vertical-align: middle">미션 체크 시작시간 ~ 종료시간</span>
+                            <img src="/images/common/information.png"
+                                 style="width:15px; vertical-align: middle"
+                                 data-bs-toggle="tooltip"
+                                 title="참여자가 미션 수행 완료 표시를 할 수 있는 시간대입니다.
+                                            해당 시간 외에는 미션 수행 완료 표시를 할 수 없습니다."/>
+                        </div>
+                        <div id="mission-check-start-and-end-time" class="input-group">
+                            <input type="time" class="form-control" name="missionCheckStartTimeOfDay"
+                                   id="mission-check-start-time"
+                                   value="09:30" required="">
+                            <span class="input-group-text">~</span>
+                            <input type="time" class="form-control" name="missionCheckEndTimeOfDay"
+                                   id="mission-check-end-time"
+                                   value="17:30" required="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="submit">개설하기</button>
                         </div>
@@ -30,6 +63,6 @@
         </div>
     </div>
 </div>
-<div th:replace="/fragments/footer :: default-footer")></div>
+<div th:replace="/fragments/footer :: default-footer" )></div>
 </body>
 </html>

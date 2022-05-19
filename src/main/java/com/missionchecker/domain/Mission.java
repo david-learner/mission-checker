@@ -1,13 +1,13 @@
 package com.missionchecker.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +20,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "MISSION")
 @Getter
-public class Mission {
+public class Mission extends BaseEntity {
 
     public static final String DUPLICATION_APPLYING_MESSAGE = "동일한 미션에 중복으로 신청할 수 없습니다";
     public static final String NOT_ADMINISTRATOR_MESSAGE = "해당 미션 관리자가 아닙니다";
@@ -41,27 +41,23 @@ public class Mission {
     // 미션 관리자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private Set<Administration> administrations;
-    // todo boolean to bit converter 적용
-    @Column(columnDefinition = "boolean default false")
-    private Boolean isClosed = Boolean.FALSE;
-    @Column(columnDefinition = "boolean default false")
-    private Boolean isDeleted = Boolean.FALSE;
-    private LocalDate openDate;
-    private LocalDate closeDate;
+    @Embedded
+    private MissionConfiguration configuration;
 
-    public Mission() {
+    protected Mission() {
+        super(LocalDateTime.now(), false);
     }
 
     private Mission(Member creator, String name, Set<Application> applications, Set<Participation> participations,
-                    List<Check> checks, Set<Administration> administrations, LocalDate openDate, LocalDate closeDate) {
+                    List<Check> checks, Set<Administration> administrations, MissionConfiguration configuration) {
+        super(LocalDateTime.now(), false);
         this.creator = creator;
         this.name = name;
         this.applications = applications;
         this.participations = participations;
         this.checks = checks;
         this.administrations = administrations;
-        this.openDate = openDate;
-        this.closeDate = closeDate;
+        this.configuration = configuration;
     }
 
     /**
@@ -71,17 +67,22 @@ public class Mission {
      * @param missionName
      * @return
      */
-    public static Mission of(Member creator, String missionName) {
+    public static Mission of(Member creator, String missionName, MissionConfiguration configuration) {
         // 초기화
         Set<Participation> participations = new HashSet<>();
         Set<Application> applications = new HashSet<>();
         List<Check> checks = new ArrayList<>();
         Set<Administration> administrations = new HashSet<>();
-        LocalDate now = LocalDate.now();
 
         // 생성
-        Mission mission = new Mission(creator, missionName, applications, participations, checks, administrations, now,
-                now);
+        Mission mission = new Mission(
+                creator,
+                missionName,
+                applications,
+                participations,
+                checks,
+                administrations,
+                configuration);
         mission.addAdministration(new Administration(creator, mission));
         return mission;
     }
