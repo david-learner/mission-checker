@@ -1,12 +1,15 @@
 package com.missionchecker.service;
 
+import com.missionchecker.domain.Check;
 import com.missionchecker.domain.Member;
 import com.missionchecker.domain.Mission;
 import com.missionchecker.dto.MissionCreationRequest;
 import com.missionchecker.dto.MissionDetailResponse;
 import com.missionchecker.repository.MemberRepository;
 import com.missionchecker.repository.MissionRepository;
+import com.missionchecker.repository.ParticipationRepository;
 import com.missionchecker.support.SessionMember;
+import com.missionchecker.web.CheckRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -21,8 +24,11 @@ public class MissionService {
 
     public static final String NO_SUCH_MISSION_MESSAGE = "미션이 존재하지 않습니다.";
     public static final String NO_SUCH_MEMBER_MESSAGE = "회원이 존재하지 않습니다.";
-    private final MissionRepository missionRepository;
+    public static final String NO_SUCH_PARTICIPATION_MESSAGE = "참여정보가 존재하지 않습니다.";
+    private final CheckRepository checkRepository;
     private final MemberRepository memberRepository;
+    private final MissionRepository missionRepository;
+    private final ParticipationRepository participationRepository;
 
     public List<Mission> findByAllMissionsCreatedBy(SessionMember sessionMember) {
         Member creator = findMemberById(sessionMember.getId());
@@ -65,14 +71,27 @@ public class MissionService {
         mission.acceptApplyingRequestBy(loginMember, applicant);
     }
 
+    public void validateParticipantOfMission(Long memberId, Long missionId) {
+        participationRepository.findParticipationByMemberIdAndMissionId(memberId, missionId).orElseThrow(() -> {
+            throw new NoSuchElementException(NO_SUCH_PARTICIPATION_MESSAGE);
+        });
+    }
+
+    @Transactional
+    public void createCheck(Long missionId, Long memberId) {
+        Mission mission = findMissionById(missionId);
+        Member member = findMemberById(memberId);
+        Check check = Check.of(member, mission);
+        checkRepository.save(check);
+    }
+
     private Member findMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MEMBER_MESSAGE);
         });
     }
 
-    @Transactional
-    protected Mission findMissionById(Long id) {
+    private Mission findMissionById(Long id) {
         return missionRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MISSION_MESSAGE);
         });

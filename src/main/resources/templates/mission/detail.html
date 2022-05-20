@@ -32,7 +32,10 @@
                 <button type="button" onclick="applyMission(this)"
                         th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).GUEST}"
                         th:data-mission-id="${missionDetail.mission.id}" >참여신청</button>
-                <div>미션 수행 체크하기</div>
+                <button type="button" th:onclick="'location.href=\''+ @{/missions/{missionId}/checks/registration-form (missionId = ${missionDetail.mission.id})} + '\''"
+                        th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).PARTICIPANT
+                            || missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).ADMINISTRATOR}"
+                        th:data-mission-id="${missionDetail.mission.id}" >미션 수행 체크하기</button>
                 <div>미션 수행 현황</div>
             </div>
         </div>

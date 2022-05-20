@@ -14,12 +14,11 @@ public class Check {
     private Long id;
     @ManyToOne
     private Mission mission;
-    @OneToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @ManyToOne
     private Member checker;
     private LocalDateTime checkedAt;
 
-    public Check() {
+    protected Check() {
     }
 
     private Check(Mission mission, Member checker, LocalDateTime checkedAt) {

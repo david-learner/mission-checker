@@ -14,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -46,7 +48,7 @@ public class MissionController {
     }
 
     @GetMapping("/missions/completion")
-    public String completeOpeningMission(Member loginMember) {
+    public String completeOpeningMission() {
         return "mission/completion";
     }
 
@@ -60,23 +62,15 @@ public class MissionController {
         return "mission/detail";
     }
 
-//    @GetMapping("/missions/{missionId}/invite")
-//    public String invitationForm(@PathVariable Long missionId, SessionMember loginMember, Model model) {
-//        missionService.isAdministrator(missionId, loginMember);
-//        model.addAttribute("mission", missionService.findOneById(missionId));
-//        return "mission/invitation-form";
-//    }
-
     /**
      * 미션 참여 신청한다
      *
      * @param missionId
      * @param loginMember
-     * @param model
      * @return
      */
     @PostMapping("/missions/{missionId}/apply")
-    public ResponseEntity applyMission(@PathVariable Long missionId, SessionMember loginMember, Model model) {
+    public ResponseEntity applyMission(@PathVariable Long missionId, SessionMember loginMember) {
         missionService.applyMission(loginMember, missionId);
         return ResponseEntity.ok().build();
     }
@@ -86,13 +80,32 @@ public class MissionController {
      *
      * @param missionId
      * @param loginMember
-     * @param model
      * @return
      */
     @PostMapping("/missions/{missionId}/applicants/{applicantId}/accept")
     public ResponseEntity acceptApplicant(@PathVariable Long missionId, @PathVariable Long applicantId,
-                                          SessionMember loginMember, Model model) {
+                                          SessionMember loginMember) {
         missionService.acceptApplyingRequest(missionId, applicantId, loginMember);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/missions/{missionId}/checks/registration-form")
+    public String checkRegistrationForm(@PathVariable @ModelAttribute Long missionId, SessionMember loginMember, Model model) {
+        missionService.validateParticipantOfMission(loginMember.getId(), missionId);
+        return "check/registration-form";
+    }
+
+    /**
+     * 미션 수행 완료 체크를 생성한다
+     * @param missionId
+     * @param loginMember
+     * @param redirectAttributes
+     * @return
+     */
+    @PostMapping("/missions/{missionId}/checks")
+    public String createCheck(@PathVariable Long missionId, SessionMember loginMember, RedirectAttributes redirectAttributes) {
+        missionService.createCheck(missionId, loginMember.getId());
+        redirectAttributes.addAttribute("missionId", missionId);
+        return "redirect:/missions/{missionId}";
     }
 }
