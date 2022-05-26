@@ -10,6 +10,7 @@ import com.missionchecker.repository.MissionRepository;
 import com.missionchecker.repository.ParticipationRepository;
 import com.missionchecker.support.SessionMember;
 import com.missionchecker.web.CheckRepository;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -43,11 +44,10 @@ public class MissionService {
     }
 
     public MissionDetailResponse findMissionDetail(Long missionId, Long memberId) {
-        Mission mission = missionRepository.findById(missionId).orElseThrow(() -> {
-            throw new NoSuchElementException(NO_SUCH_MISSION_MESSAGE);
-        });
+        Mission mission = findMissionById(missionId);
         Member member = findMemberById(memberId);
-        return new MissionDetailResponse(mission, mission.getMemberRoleOfMission(member));
+        List<Check> checks = findChecksByMissionAndMemberId(missionId, memberId);
+        return new MissionDetailResponse(mission, mission.getMemberRoleOfMission(member), checks);
     }
 
     @Transactional
@@ -78,10 +78,10 @@ public class MissionService {
     }
 
     @Transactional
-    public void createCheck(Long missionId, Long memberId) {
+    public void createCheck(Long missionId, Long memberId, LocalDate missionExecutionDate) {
         Mission mission = findMissionById(missionId);
         Member member = findMemberById(memberId);
-        Check check = Check.of(member, mission);
+        Check check = Check.of(member, mission, missionExecutionDate);
         checkRepository.save(check);
     }
 
@@ -95,5 +95,9 @@ public class MissionService {
         return missionRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MISSION_MESSAGE);
         });
+    }
+
+    private List<Check> findChecksByMissionAndMemberId(Long missionId, Long memberId) {
+        return checkRepository.findAllByMissionIdAndCheckerId(missionId, memberId);
     }
 }

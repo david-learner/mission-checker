@@ -22,8 +22,11 @@ import lombok.Getter;
 @Getter
 public class Mission extends BaseEntity {
 
-    public static final String DUPLICATION_APPLYING_MESSAGE = "동일한 미션에 중복으로 신청할 수 없습니다";
-    public static final String NOT_ADMINISTRATOR_MESSAGE = "해당 미션 관리자가 아닙니다";
+    private static final String DUPLICATION_APPLYING_MESSAGE = "동일한 미션에 중복으로 신청할 수 없습니다";
+    private static final String DUPLICATION_PARTICIPATING_MESSAGE = "동일한 미션에 중복으로 참여할 수 없습니다";
+    private static final String NOT_ADMINISTRATOR_MESSAGE = "해당 미션 관리자가 아닙니다";
+    private static final String DUPLICATED_ADMINISTRATOR_MESSAGE = "이미 존재하는 관리자입니다";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -68,13 +71,11 @@ public class Mission extends BaseEntity {
      * @return
      */
     public static Mission of(Member creator, String missionName, MissionConfiguration configuration) {
-        // 초기화
         Set<Participation> participations = new HashSet<>();
         Set<Application> applications = new HashSet<>();
         List<Check> checks = new ArrayList<>();
         Set<Administration> administrations = new HashSet<>();
 
-        // 생성
         Mission mission = new Mission(
                 creator,
                 missionName,
@@ -83,33 +84,44 @@ public class Mission extends BaseEntity {
                 checks,
                 administrations,
                 configuration);
-        mission.addAdministration(new Administration(creator, mission));
+        mission.addAdministration(creator);
         return mission;
     }
 
-    public void addApplicant(Member member) {
-        // todo set 중복 삽입시 발생하는 예외 어떻게 처리해줄건지
-        if (!isApplicant(member) && !isParticipant(member)) {
-            applications.add(new Application(member, this));
+    public void addApplicant(Member applicant) {
+        Objects.requireNonNull(applicant);
+        if (!isExisted(applicant)) {
+            applications.add(new Application(applicant, this));
             return;
         }
         throw new IllegalArgumentException(DUPLICATION_APPLYING_MESSAGE);
     }
 
     public void addParticipant(Member participant) {
-        // Participation은 mission, member 정보가 null이어선 안 된다.
-        // POJO로 not null validation을 어떻게 처리하면 좋을까?
-        Participation participation = new Participation(participant, this);
-        this.participations.add(participation);
-        // todo 미션에 참여자가 추가되면 참여자에게도 미션이 추가되어야 한다. 연관관계 편의 메서드?
-        participant.addParticipation(participation);
+        Objects.requireNonNull(participant);
+        if (!isExisted(participant)) {
+            Participation participation = new Participation(participant, this);
+            this.participations.add(participation);
+            // 연관관계 편의 메서드
+            participant.addParticipation(participation);
+            return;
+        }
+        throw new IllegalArgumentException(DUPLICATION_PARTICIPATING_MESSAGE);
     }
 
-    // 양방향 연관관계 편의메서드
-    // 미션 생성할 때 미션 생성자(creator)의 관리자 정보 목록에 관리자(creator) 정보 추가하기
-    public void addAdministration(Administration administration) {
-        administrations.add(administration);
-        administration.getMember().addAdministration(administration);
+    private boolean isExisted(Member member) {
+        return isApplicant(member) || isParticipant(member);
+    }
+
+    public void addAdministration(Member administrator) {
+        if (!isAdministrator(administrator)) {
+            Administration administration = new Administration(administrator, this);
+            administrations.add(administration);
+            // 연관관계 편의 메서드
+            administration.getMember().addAdministration(administration);
+            return;
+        }
+        throw new IllegalArgumentException(DUPLICATED_ADMINISTRATOR_MESSAGE);
     }
 
     public void acceptApplyingRequestBy(Member administrator, Member applicant) {
@@ -162,6 +174,10 @@ public class Mission extends BaseEntity {
         if (!isAdministrator(administrator)) {
             throw new IllegalArgumentException(NOT_ADMINISTRATOR_MESSAGE);
         }
+    }
+
+    public boolean canRegisterWithPastDate() {
+        return configuration.canRegisterWithPastDate();
     }
 
     @Override

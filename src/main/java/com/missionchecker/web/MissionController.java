@@ -1,7 +1,7 @@
 package com.missionchecker.web;
 
-import com.missionchecker.domain.Member;
 import com.missionchecker.domain.Mission;
+import com.missionchecker.dto.CheckCreationRequest;
 import com.missionchecker.dto.MissionCreationRequest;
 import com.missionchecker.dto.MissionDetailResponse;
 import com.missionchecker.service.MissionService;
@@ -90,21 +90,24 @@ public class MissionController {
     }
 
     @GetMapping("/missions/{missionId}/checks/registration-form")
-    public String checkRegistrationForm(@PathVariable @ModelAttribute Long missionId, SessionMember loginMember, Model model) {
+    public String checkRegistrationForm(@PathVariable @ModelAttribute Long missionId, SessionMember loginMember,
+                                        Model model) {
         missionService.validateParticipantOfMission(loginMember.getId(), missionId);
         return "check/registration-form";
     }
 
     /**
      * 미션 수행 완료 체크를 생성한다
+     *
      * @param missionId
      * @param loginMember
      * @param redirectAttributes
      * @return
      */
     @PostMapping("/missions/{missionId}/checks")
-    public String createCheck(@PathVariable Long missionId, SessionMember loginMember, RedirectAttributes redirectAttributes) {
-        missionService.createCheck(missionId, loginMember.getId());
+    public String createCheck(@PathVariable Long missionId, CheckCreationRequest checkCreationRequest,
+                              SessionMember loginMember, RedirectAttributes redirectAttributes) {
+        missionService.createCheck(missionId, loginMember.getId(), checkCreationRequest.getMissionExecutionDate());
         redirectAttributes.addAttribute("missionId", missionId);
         return "redirect:/missions/{missionId}";
     }

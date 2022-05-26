@@ -13,6 +13,7 @@ public class MissionConfiguration {
     private LocalDate missionEndDate;
     private LocalTime missionCheckStartTimeOfDay;
     private LocalTime missionCheckEndTimeOfDay;
+    private Boolean canRegisterWithPastDate;
 
     public MissionConfiguration() {
     }
@@ -23,5 +24,9 @@ public class MissionConfiguration {
         this.missionEndDate = missionEndDate;
         this.missionCheckStartTimeOfDay = missionCheckStartTimeOfDay;
         this.missionCheckEndTimeOfDay = missionCheckEndTimeOfDay;
+    }
+
+    public boolean canRegisterWithPastDate() {
+        return true;
     }
 }

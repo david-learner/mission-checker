@@ -27,7 +27,6 @@
                 </div>
             </div>
             <div name="mission-dashboard">
-
                 <div name="mission-introduce">미션 소개</div>
                 <button type="button" onclick="applyMission(this)"
                         th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).GUEST}"
@@ -37,6 +36,9 @@
                             || missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).ADMINISTRATOR}"
                         th:data-mission-id="${missionDetail.mission.id}" >미션 수행 체크하기</button>
                 <div>미션 수행 현황</div>
+                    <div th:each="check : ${missionDetail.checks}">
+                        <span>미션 수행 완료일:<span th:text="*{check.checkedAt}"></span></span>
+                    </div>
             </div>
         </div>
     </div>
