@@ -27,16 +27,23 @@ public class Check extends BaseEntity {
         super(LocalDateTime.now(), false);
     }
 
-    public static Check of(Member checker, Mission mission, LocalDate missionExecutionDate) {
-        LocalDateTime completedDatetime;
+    public static Check of(Member checker, Mission mission, LocalDate executionDate) {
+        LocalDateTime executionDatetime = createExecutionDatetime(mission, executionDate);
+        mission.validateExecutionDatetime(executionDatetime);
+        return new Check(mission, checker, executionDatetime);
+    }
 
-        if (mission.canRegisterWithPastDate()) {
-            completedDatetime = LocalDateTime.of(missionExecutionDate, LocalTime.MIN);
-        } else {
-            completedDatetime = LocalDateTime.of(missionExecutionDate, LocalTime.now());
+    /**
+     * 미션 수행 완료 일자(Date)와 현재 시간을 합쳐 미션 수행 완료 일시(Datetime)을 반환한다.
+     * @param mission
+     * @param missionExecutionDate
+     * @return
+     */
+    private static LocalDateTime createExecutionDatetime(Mission mission, LocalDate missionExecutionDate) {
+        if (mission.canCreateCheckWithPastDate()) {
+            return LocalDateTime.of(missionExecutionDate, LocalTime.MIN);
         }
-
-        return new Check(mission, checker, completedDatetime);
+        return LocalDateTime.of(missionExecutionDate, LocalTime.now());
     }
 
     private Check(Mission mission, Member checker, LocalDateTime completedDatetime) {

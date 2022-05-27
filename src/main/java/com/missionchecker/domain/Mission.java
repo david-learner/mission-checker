@@ -176,8 +176,12 @@ public class Mission extends BaseEntity {
         }
     }
 
-    public boolean canRegisterWithPastDate() {
-        return configuration.canRegisterWithPastDate();
+    public void validateExecutionDatetime(LocalDateTime executionDatetime) {
+        configuration.validateExecutionDatetime(executionDatetime);
+    }
+
+    public boolean canCreateCheckWithPastDate() {
+        return configuration.canCreateCheckWithPastDate();
     }
 
     @Override
