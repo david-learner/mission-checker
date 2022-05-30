@@ -33,7 +33,7 @@ public class MissionConfiguration {
     }
 
     /**
-     * 미션 수행 완료 일시가 미션에서 지정한 일자와 시간에 유효한지 확인한다
+     * 미션 수행 체크 일시가 미션에서 지정한 일자와 시간에 유효한지 확인한다
      *
      * @param executionDatetime
      */

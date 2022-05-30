@@ -28,6 +28,7 @@ public class Check extends BaseEntity {
     }
 
     public static Check of(Member checker, Mission mission, LocalDate executionDate) {
+        mission.validateDuplicatedCheck(checker, executionDate);
         LocalDateTime executionDatetime = createExecutionDatetime(mission, executionDate);
         mission.validateExecutionDatetime(executionDatetime);
         return new Check(mission, checker, executionDatetime);
@@ -35,6 +36,7 @@ public class Check extends BaseEntity {
 
     /**
      * 미션 수행 완료 일자(Date)와 현재 시간을 합쳐 미션 수행 완료 일시(Datetime)을 반환한다.
+     *
      * @param mission
      * @param missionExecutionDate
      * @return

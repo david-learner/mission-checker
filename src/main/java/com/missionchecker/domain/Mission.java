@@ -1,10 +1,12 @@
 package com.missionchecker.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -111,6 +113,22 @@ public class Mission extends BaseEntity {
 
     private boolean isExisted(Member member) {
         return isApplicant(member) || isParticipant(member);
+    }
+
+    /**
+     * 한 사람이 동일한 날짜에 등록한 체크가 있는지 확인한다
+     *
+     * @param checker
+     * @param completedDate
+     */
+    public void validateDuplicatedCheck(Member checker, LocalDate completedDate) {
+        Optional<Check> maybeCheck = checks.stream()
+                .filter(check -> check.getChecker().equals(checker))
+                .filter(check -> check.getCompletedDatetime().toLocalDate().equals(completedDate))
+                .findAny();
+        if (maybeCheck.isPresent()) {
+            throw new IllegalArgumentException("동일한 날짜를 가진 체크가 존재합니다.");
+        }
     }
 
     public void addAdministration(Member administrator) {
