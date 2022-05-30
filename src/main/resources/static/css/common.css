@@ -1,10 +1,16 @@
 /* BOOTSTRAP VARIABLES */
+/* BOOTSTRAP VARIABLES - Tablet */
 @media (min-width: 768px) {
     .container--xs { max-width: 570px; }
 }
-
+/* BOOTSTRAP VARIABLES - PC */
 @media (min-width: 1080px) {
     .container {width:1080px;}
+}
+
+/* BOOTSTRAP VARIABLES - Mobile */
+@media (max-width: 768px) {
+    .content {padding: 0 !important;}
 }
 
 /* Content */

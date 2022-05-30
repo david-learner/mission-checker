@@ -6,6 +6,16 @@
 <body>
 <header th:replace="/fragments/header :: default-header"></header>
 <div class="container">
+    <div th:if="${session.LOGIN_MEMBER}">
+        <div>
+            <p>참여중인 미션</p>
+            <div class="list-group">
+                <a th:each="mission : ${participatingMissions}" th:text="${mission.name}"
+                   th:href="@{/missions/{missionId} (missionId=${mission.id})}"
+                   class="list-group-item list-group-item-action">Mission Name</a>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="/fragments/footer :: default-footer"></div>
 </body>
