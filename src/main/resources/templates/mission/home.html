@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="px-4 py-5 my-5">
-                <p>내가 참여한 미션 목록</p>
+                <p>참여중인 미션 목록</p>
                 <div class="list-group">
                     <a th:each="mission : ${participatingMissions}" th:text="${mission.name}"
                        th:href="@{/missions/{missionId} (missionId=${mission.id})}"
