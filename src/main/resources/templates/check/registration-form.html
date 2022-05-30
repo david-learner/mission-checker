@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="/fragments/head :: default-head(~{::title})">
-    <title>미션 수행 완료 등록</title>
+    <title>미션 수행 체크</title>
 </head>
 <body>
 <header th:replace="/fragments/header :: default-header"></header>
 <div class="container">
     <div class="content">
-        <div class="content-header">
-            미션 체크
+        <div class="content-header text-center text-md-start mb-3">
+            <h1>
+                미션 수행 체크
+            </h1>
         </div>
         <div class="content-body">
             <form method="post" th:action="@{/missions/{missionId}/checks (missionId=${missionId})}">
                 <div class="row mb-2">
                     <div class="col">
-                        <label for="mission-execution-date">미션 수행 일자</label>
+                        <label for="mission-execution-date"><b>미션 수행 일자</b></label>
                         <input type="date" class="form-control" name="missionExecutionDate" id="mission-execution-date"
                                value="" required="">
                     </div>
@@ -22,7 +24,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="submit">체크 등록</button>
+                            <button class="btn btn-success" type="submit">체크 등록</button>
                         </div>
                     </div>
                 </div>
@@ -30,6 +32,11 @@
         </div>
     </div>
 </div>
-<div th:replace="/fragments/footer :: default-footer" )></div>
+<div th:replace="/fragments/footer :: default-footer"></div>
+<script>
+    window.addEventListener('DOMContentLoaded', (e) => {
+        document.querySelector('#mission-execution-date').valueAsDate = new Date();
+    })
+</script>
 </body>
 </html>

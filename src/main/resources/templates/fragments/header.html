@@ -9,12 +9,12 @@
     </ul>
     <div class="col-md-3 text-end">
         <div th:unless="${session.LOGIN_MEMBER}">
-            <a class="btn btn-outline-primary me-2" href="/login" role="button">로그인</a>
-            <a class="btn btn-primary" href="/sign-up" role="button">회원가입</a>
+            <a class="btn btn-outline-success me-2" href="/login" role="button">로그인</a>
+            <a class="btn btn-success" href="/sign-up" role="button">회원가입</a>
         </div>
         <div th:if="${session.LOGIN_MEMBER}">
-            <a class="btn btn-outline-primary me-2" href="/mypage" role="button">마이페이지</a>
-            <a class="btn btn-primary" href="javascript:logout()" role="button">로그아웃</a>
+            <a class="btn btn-outline-success me-2" href="/mypage" role="button">마이페이지</a>
+            <a class="btn btn-success" href="javascript:logout()" role="button">로그아웃</a>
         </div>
     </div>
 </header>

@@ -7,11 +7,12 @@
 <header th:replace="/fragments/header :: default-header"></header>
 <div class="container">
     <div class="content">
-        <div class="content-header">
+        <div class="content-header text-center text-md-start">
             <h1 th:text="${missionDetail.mission.name}">Mission Name</h1>
         </div>
         <div class="content-body">
-            <div name="admin-area">
+            <div name="admin-area"
+                 th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).ADMINISTRATOR}">
                 <div>
                     <h3>미션 참여 신청자</h3>
                     <div name="applicants">
@@ -26,23 +27,25 @@
                     </div>
                 </div>
             </div>
-            <div name="mission-dashboard">
-                <div name="mission-introduce">미션 소개</div>
+            <div name="mission-dashboard" class="text-center text-md-start">
+                <!--div name="mission-introduce">미션 소개</div-->
                 <button type="button" onclick="applyMission(this)"
                         th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).GUEST}"
                         th:data-mission-id="${missionDetail.mission.id}" >참여신청</button>
-                <button type="button" th:onclick="'location.href=\''+ @{/missions/{missionId}/checks/registration-form (missionId = ${missionDetail.mission.id})} + '\''"
+                <!-- 미션 수행 체크 -->
+                <button type="button" class="btn btn-success my-3"
+                        th:onclick="'location.href=\''+ @{/missions/{missionId}/checks/registration-form (missionId = ${missionDetail.mission.id})} + '\''"
                         th:if="${missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).PARTICIPANT
                             || missionDetail.memberRole == T(com.missionchecker.domain.MemberRole).ADMINISTRATOR}"
                         th:data-mission-id="${missionDetail.mission.id}" >미션 수행 체크하기</button>
-                <div>미션 수행 현황</div>
+                <div class="text-start my-3">미션 수행 현황</div>
                     <div th:each="check : ${missionDetail.checks}">
-                        <span>미션 수행 완료일:<span th:text="*{check.checkedAt}"></span></span>
+                        <span>미션 수행 완료일:<span th:text="*{check.completedDatetime}"></span></span>
                     </div>
             </div>
         </div>
     </div>
 </div>
-<div th:replace="/fragments/footer :: default-footer" )></div>
+<div th:replace="/fragments/footer :: default-footer"></div>
 </body>
 </html>
