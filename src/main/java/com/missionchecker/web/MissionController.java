@@ -107,7 +107,7 @@ public class MissionController {
     @PostMapping("/missions/{missionId}/checks")
     public String createCheck(@PathVariable Long missionId, CheckCreationRequest checkCreationRequest,
                               SessionMember loginMember, RedirectAttributes redirectAttributes) {
-        missionService.createCheck(missionId, loginMember.getId(), checkCreationRequest.getMissionExecutionDate());
+        missionService.createCheck(missionId, loginMember.getId(), checkCreationRequest.toMissionExecutionDate());
         redirectAttributes.addAttribute("missionId", missionId);
         return "redirect:/missions/{missionId}";
     }

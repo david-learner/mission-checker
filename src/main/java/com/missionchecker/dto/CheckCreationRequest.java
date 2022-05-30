@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 public class CheckCreationRequest {
 
-    private LocalDate missionExecutionDate;
+    private String missionExecutionDate;
 
-    public CheckCreationRequest(String missionExecutionDate) {
-        this.missionExecutionDate = LocalDate.parse(missionExecutionDate);
+    public LocalDate toMissionExecutionDate() {
+        return LocalDate.parse(missionExecutionDate);
     }
 }
