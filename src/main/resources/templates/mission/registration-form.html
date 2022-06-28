@@ -23,11 +23,11 @@
                     <div class="col">
                         <label for="mission-start-and-end-date">미션 시작일 ~ 종료일</label>
                         <div id="mission-start-and-end-date" class="input-group">
-                            <input type="date" class="form-control" name="missionStartDate" id="mission-start-date"
-                                   value="2022-05-19" required="">
+                            <input type="date" id="mission-start-date" name="missionStartDate" class="form-control"
+                                   required="">
                             <span class="input-group-text">~</span>
-                            <input type="date" class="form-control" name="missionEndDate" id="mission-end-date"
-                                   value="2022-06-19" required="">
+                            <input type="date" id="mission-end-date" name="missionEndDate" class="form-control"
+                                   required="">
                         </div>
                     </div>
                 </div>
@@ -35,20 +35,19 @@
                     <div class="col">
                         <div>
                             <span style="vertical-align: middle">미션 수행 체크 가능 시간</span>
-                            <img src="/images/common/information.png"
-                                 style="width:15px; vertical-align: middle"
-                                 data-bs-toggle="tooltip"
-                                 title="참여자가 미션 수행 체크를 할 수 있는 시간대입니다.
-                                            해당 시간 외에는 미션 수행 체크를 할 수 없습니다."/>
+                            <a href="#" data-bs-toggle="tooltip" title="참여자가 미션 수행 체크를 할 수 있는 시간대입니다.
+                                해당 시간 외에는 미션 수행 체크를 할 수 없습니다." style="color: inherit">
+                                <i class="fa-solid fa-circle-question" style="width:15px; vertical-align: middle"></i>
+                            </a>
                         </div>
                         <div id="mission-check-start-and-end-time" class="input-group">
                             <input type="time" class="form-control" name="missionCheckStartTimeOfDay"
                                    id="mission-check-start-time"
-                                   value="09:30" required="">
+                                   value="09:00" required="">
                             <span class="input-group-text">~</span>
                             <input type="time" class="form-control" name="missionCheckEndTimeOfDay"
                                    id="mission-check-end-time"
-                                   value="17:30" required="">
+                                   value="18:00" required="">
                         </div>
                     </div>
                 </div>
@@ -59,11 +58,11 @@
                             <input type="checkbox" id="can-create-check-with-past-date"
                                    name="canCreateCheckWithPastDate" style="vertical-align: middle">
                             <span>
-                                <img src="/images/common/information.png"
-                                     style="width:15px; vertical-align: middle"
-                                     data-bs-toggle="tooltip"
-                                     title="과거 날짜에 미션 수행 체크가 가능하다면
-                                     미션 수행 체크 가능 시간은 적용되지 않습니다."/>
+                                <a href="#" data-bs-toggle="tooltip" title="과거 날짜에 미션 수행 체크가 가능하다면
+                                   미션 수행 체크 가능 시간은 적용되지 않습니다." style="color: inherit">
+                                    <i class="fa-solid fa-circle-question"
+                                       style="width:15px; vertical-align: middle"></i>
+                                </a>
                             </span>
                         </div>
                     </div>
@@ -71,7 +70,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="submit">개설하기</button>
+                            <button class="btn btn-success" type="submit">개설하기</button>
                         </div>
                     </div>
                 </div>
