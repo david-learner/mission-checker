@@ -33,3 +33,13 @@ function toggleMissionCheckStartAndEndTime(e) {
         missionCheckEndTime.disabled = false;
     }
 }
+
+function setDefaultMissionStartAndEndDate() {
+    // 미션 시작-종료일 오늘부터 30일 이후로 자동 설정
+    const DEFAULT_PERIOD_DAYS = 30;
+    let today = new Date();
+    let afterThirty = new Date();
+    afterThirty.setDate(today.getDate() + DEFAULT_PERIOD_DAYS);
+    document.querySelector('#mission-start-date').valueAsDate = today;
+    document.querySelector('#mission-end-date').valueAsDate = afterThirty;
+}

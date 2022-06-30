@@ -81,6 +81,10 @@
 <div th:replace="/fragments/footer :: default-footer"></div>
 <script>
     initMissionRegistrationForm();
+
+    window.addEventListener('DOMContentLoaded', (e) => {
+        setDefaultMissionStartAndEndDate();
+    })
 </script>
 </body>
 </html>
