@@ -37,13 +37,10 @@ public class Mission extends BaseEntity {
     private Member creator;
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Check> checks;
-    // 미션 신청 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Application> applications;
-    // 미션 참여자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private Set<Participation> participations;
-    // 미션 관리자 정보
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private Set<Administration> administrations;
     @Embedded
