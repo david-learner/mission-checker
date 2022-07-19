@@ -1,6 +1,5 @@
 package com.missionchecker.support;
 
-import com.missionchecker.repository.MemberRepository;
 import com.missionchecker.util.Constant;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
