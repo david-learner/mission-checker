@@ -111,4 +111,12 @@ public class MissionController {
         redirectAttributes.addAttribute("missionId", missionId);
         return "redirect:/missions/{missionId}";
     }
+
+    /**
+     * 미션 관리 화면으로 이동한다
+     */
+    @GetMapping("/missions/{missionId}/manage")
+    public String moveToMissionManagement(@PathVariable Long missionId) {
+        return "/mission/management";
+    }
 }

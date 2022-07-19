@@ -8,7 +8,8 @@
 <div class="container">
     <div class="content">
         <div class="content-header text-center text-md-start">
-            <h1 th:text="${missionDetail.mission.name}">Mission Name</h1>
+            <h1 th:text="${missionDetail.mission.name}" class="d-inline-block me-xl-2">Mission Name</h1>
+            <a th:href="@{/missions/{missionId}/manage (missionId=${missionDetail.mission.id})}"><i class="fa-solid fa-gear"></i></a>
         </div>
         <div class="content-body">
             <div name="admin-area"
