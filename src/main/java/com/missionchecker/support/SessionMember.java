@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class SessionMember {
 
+    public static String LOGIN_MEMBER_SESSION_KEY = "LOGIN_MEMBER";
+
     private Long id;
     private String name;
     private String email;
