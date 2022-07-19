@@ -85,13 +85,13 @@ public class MissionService {
         checkRepository.save(check);
     }
 
-    private Member findMemberById(Long id) {
+    public Member findMemberById(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MEMBER_MESSAGE);
         });
     }
 
-    private Mission findMissionById(Long id) {
+    public Mission findMissionById(Long id) {
         return missionRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchElementException(NO_SUCH_MISSION_MESSAGE);
         });

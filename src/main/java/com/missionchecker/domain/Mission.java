@@ -173,6 +173,10 @@ public class Mission extends BaseEntity {
         return checks;
     }
 
+    public boolean isOwner(Member member) {
+        return this.owner.equals(member);
+    }
+
     public boolean isAdministrator(Member member) {
         return administrations.contains(new Administration(member, this));
     }

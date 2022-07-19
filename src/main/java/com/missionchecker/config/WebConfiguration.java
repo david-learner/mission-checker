@@ -1,5 +1,6 @@
 package com.missionchecker.config;
 
+import com.missionchecker.service.RoleService;
 import com.missionchecker.support.LoginFilter;
 import com.missionchecker.support.LoginMemberHandlerMethodArgumentResolver;
 import java.util.List;
@@ -12,9 +13,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
+    private final RoleService roleService;
+
+    public WebConfiguration(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginMemberHandlerMethodArgumentResolver());
+        resolvers.add(new LoginMemberHandlerMethodArgumentResolver(roleService));
     }
 
     /**
