@@ -33,7 +33,7 @@ public class MissionService {
 
     public List<Mission> findByAllMissionsCreatedBy(SessionMember sessionMember) {
         Member creator = findMemberById(sessionMember.getId());
-        return missionRepository.findAllByCreatorAndIsDeleted(creator, Boolean.FALSE);
+        return missionRepository.findAllByOwnerAndIsDeleted(creator, Boolean.FALSE);
     }
 
 

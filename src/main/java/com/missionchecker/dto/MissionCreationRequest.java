@@ -22,7 +22,7 @@ public class MissionCreationRequest {
     private String missionCheckEndTimeOfDay;
     private boolean canCreateCheckWithPastDate;
 
-    public Mission toMission(Member creator) {
+    public Mission toMission(Member owner) {
         LocalTime startTime = LocalTime.MIN;
         LocalTime endTime = LocalTime.MAX;
 
@@ -38,6 +38,6 @@ public class MissionCreationRequest {
                 canCreateCheckWithPastDate
         );
 
-        return Mission.of(creator, name, configuration);
+        return Mission.of(owner, name, configuration);
     }
 }

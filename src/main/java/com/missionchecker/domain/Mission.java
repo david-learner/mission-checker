@@ -34,7 +34,7 @@ public class Mission extends BaseEntity {
     private Long id;
     private String name;
     @OneToOne
-    private Member creator;
+    private Member owner;
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Check> checks;
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,10 +50,10 @@ public class Mission extends BaseEntity {
         super(LocalDateTime.now(), false);
     }
 
-    private Mission(Member creator, String name, Set<Application> applications, Set<Participation> participations,
+    private Mission(Member owner, String name, Set<Application> applications, Set<Participation> participations,
                     List<Check> checks, Set<Administration> administrations, MissionConfiguration configuration) {
         super(LocalDateTime.now(), false);
-        this.creator = creator;
+        this.owner = owner;
         this.name = name;
         this.applications = applications;
         this.participations = participations;
@@ -156,7 +156,7 @@ public class Mission extends BaseEntity {
      * @return 미션에서 맡은 역할
      */
     public MemberRole getMemberRoleOfMission(Member member) {
-        if (creator.equals(member) || isAdministrator(member)) {
+        if (owner.equals(member) || isAdministrator(member)) {
             return MemberRole.ADMINISTRATOR;
         }
         if (isParticipant(member)) {
@@ -208,11 +208,11 @@ public class Mission extends BaseEntity {
             return false;
         }
         Mission mission = (Mission) o;
-        return Objects.equals(creator, mission.creator) && Objects.equals(name, mission.name);
+        return Objects.equals(owner, mission.owner) && Objects.equals(name, mission.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(creator.getName(), creator.getEmail(), creator.getPhone(), name);
+        return Objects.hash(owner.getName(), owner.getEmail(), owner.getPhone(), name);
     }
 }
